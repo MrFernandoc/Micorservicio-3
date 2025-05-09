@@ -1,0 +1,24 @@
+{
+  "name": "lab-tests-service",
+  "version": "1.0.0",
+  "description": "Microservicio para gestionar exámenes de laboratorio en una clínica",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "author": "Fernando",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.3.4",
+    "dotenv": "^16.0.0",
+    "cors": "^2.8.5",
+    "swagger-ui-express": "^4.3.1",
+    "swagger-jsdoc": "^6.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}

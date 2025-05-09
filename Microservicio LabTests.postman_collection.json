@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "927567c0-5d90-4020-a5eb-04978466f746",
+		"name": "Microservicio LabTests",
+		"description": "Pruebas para el microservicio de exámenes de laboratorio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29286508"
+	},
+	"item": [
+		{
+			"name": "1 - Crear examen",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paciente_id\": \"2\",  // ID único del paciente (obligatorio)\n  \"tipo_examen\": \"Sangre\",     // Tipo de examen (obligatorio)\n  \"fecha_examen\": \"2025-05-07T10:00:00.000Z\",  // Fecha en la que se realizó el examen (formato ISODate, obligatorio)\n  \"resultado\": {  \n    \"parametros\": [           // Lista de parámetros medidos (obligatorio)\n      {\n        \"nombre\": \"Glucosa\",    // Nombre del parámetro (obligatorio)\n        \"valor\": \"110\",         // Valor del parámetro (obligatorio)\n        \"unidad\": \"mg/dL\"       // Unidad de medida del parámetro (obligatorio)\n      },\n      {\n        \"nombre\": \"Colesterol\",\n        \"valor\": \"180\",\n        \"unidad\": \"mg/dL\"\n      }\n    ],\n    \"observaciones\": \"Paciente en rango normal\"  // Observaciones adicionales (opcional)\n  },\n  \"estado\": \"pendiente\",      // Estado del examen (obligatorio: uno de los valores válidos: \"pendiente\", \"completado\", \"cancelado\")\n  \"fecha_registro\": \"2025-05-08T16:30:00.000Z\" // Fecha de registro del examen (opcional, por defecto toma la fecha actual)\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/lab-tests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"lab-tests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 - Obtener todos los exámenes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/lab-tests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"lab-tests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 - Obtener examen por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/lab-tests/{{examenId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"lab-tests",
+						"{{examenId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 - Actualizar examen por ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"estado\": \"completado\",\n  \"fecha_examen\": \"2025-05-15T10:00:00Z\",\n  \"resultado\": {\n    \"parametros\": [\n      { \"nombre\": \"Glucosa\", \"valor\": \"Normal\" },\n      { \"nombre\": \"Colesterol\", \"valor\": \"Alto\" }\n    ]\n  }\n}\n"
+				},
+				"url": {
+					"raw": "http://44.223.115.188:3000/api/lab-tests/681dc94c38764741640ff9c6",
+					"protocol": "http",
+					"host": [
+						"44",
+						"223",
+						"115",
+						"188"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"lab-tests",
+						"681dc94c38764741640ff9c6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 - Eliminar examen por ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/lab-tests/{{examenId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"lab-tests",
+						"{{examenId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "examenId",
+			"value": ""
+		}
+	]
+}

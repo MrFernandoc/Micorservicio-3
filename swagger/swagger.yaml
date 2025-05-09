@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  title: Lab Tests Service API
+  description: API para gestionar los exámenes de laboratorio en una clínica.
+  version: "1.0.0"
+  contact:
+    name: Fenando Aguilar 
+    email: segundo.aguilar@utec.edu.pe
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local para desarrollo
+
+paths:
+  /examenes:
+    get:
+      summary: Obtiene todos los exámenes de laboratorio registrados.
+      description: Devuelve una lista de todos los exámenes de laboratorio registrados en la base de datos.
+      responses:
+        '200':
+          description: Lista de exámenes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Examen'
+
+    post:
+      summary: Crea un nuevo examen de laboratorio.
+      description: Crea un examen de laboratorio y lo registra en la base de datos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Examen'
+      responses:
+        '201':
+          description: Examen creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Examen'
+
+  /examenes/{id}:
+    get:
+      summary: Obtiene un examen de laboratorio por ID.
+      description: Devuelve los detalles de un examen de laboratorio específico.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del examen a obtener.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalles del examen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Examen'
+        '404':
+          description: Examen no encontrado
+
+    put:
+      summary: Actualiza un examen de laboratorio.
+      description: Actualiza la información de un examen de laboratorio.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del examen a actualizar.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Examen'
+      responses:
+        '200':
+          description: Examen actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Examen'
+        '404':
+          description: Examen no encontrado
+
+    delete:
+      summary: Elimina un examen de laboratorio.
+      description: Elimina un examen de laboratorio de la base de datos.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del examen a eliminar.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Examen eliminado
+        '404':
+          description: Examen no encontrado
+
+components:
+  schemas:
+    Examen:
+      type: object
+      required:
+        - paciente_id
+        - tipo_examen
+        - fecha_examen
+        - resultado
+        - estado
+        - fecha_registro
+      properties:
+        _id:
+          type: string
+          description: El ID único del examen
+        paciente_id:
+          type: string
+          description: ID único del paciente
+        tipo_examen:
+          type: string
+          description: "Tipo de examen realizado (Ej: Sangre, Orina)"
+        fecha_examen:
+          type: string
+          format: date-time
+          description: Fecha en que se realizó el examen
+        resultado:
+          type: object
+          description: Resultado del examen
+          properties:
+            parametros:
+              type: array
+              items:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+                    description: "Nombre del parámetro medido (Ej: Glucosa)"
+                  valor:
+                    type: string
+                    description: Valor del parámetro medido
+                  unidad:
+                    type: string
+                    description: "Unidad de medida (Ej: mg/dL)"
+            observaciones:
+              type: string
+              description: Comentarios adicionales sobre el examen
+        estado:
+          type: string
+          description: "Estado del examen (Ej: pendiente, completado, cancelado)"
+        fecha_registro:
+          type: string
+          format: date-time
+          description: Fecha en que se registró el examen en el sistema
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          description: Código de error
